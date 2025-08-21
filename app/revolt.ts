@@ -99,7 +99,7 @@ async function formatMessage(revolt: RevoltClient, message: Message) {
             emojiUrl = `${REVOLT_ATTACHMENT_URL}/emojis/${encodeURIComponent(
               emojiId
             )}?width=32&quality=lossless`;
-            content = content.replace(emoji, emojiUrl);
+            content = content.replace(emoji, `[${emoji}](${emojiUrl})`);
           }
         }
       }
