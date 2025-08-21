@@ -9,6 +9,7 @@ import { ConnectionPair, Mapping } from "./interfaces";
 import { Main } from "./Main";
 import { MappingModel } from "./models/Mapping";
 import { sendDiscordMessage } from "./revolt";
+import { formatDiscordName } from "./util/authors";
 
 export class ConnectionError extends Error {}
 
@@ -282,7 +283,7 @@ export default class UniversalExecutor {
             true
           );
 
-          return user.username + "#" + user.discriminator;
+          return formatDiscordName(user);
         } else {
           throw new EntityNotFoundError("User not found.");
         }

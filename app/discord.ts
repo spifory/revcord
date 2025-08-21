@@ -20,6 +20,7 @@ import {
 import { RevcordEmbed } from "./util/embeds";
 import { checkWebhookPermissions } from "./util/permissions";
 import { truncate } from "./util/truncate";
+import { formatDiscordName } from "./util/authors";
 
 /**
  * This file contains code taking care of things from Discord to Revolt
@@ -92,7 +93,7 @@ function formatMessage(
           if (match) {
             content = content.replace(
               ping,
-              `[@${match.user.username}#${match.user.discriminator}]()`
+              `[@${formatDiscordName(match.user)}]()`
             );
           }
         }
@@ -153,14 +154,11 @@ export async function handleDiscordMessage(
       const mask = {
         // Support for new username system
         name: truncate(
-          message.author.username +
-            (message.author.discriminator.length === 1
-              ? ""
-              : "#" + message.author.discriminator),
+          formatDiscordName(message.author),
           32
         ),
         avatar: message.author.avatarURL(),
-      };
+      };  
       // Handle replies
       const reference = message.reference;
       let replyPing: string;
@@ -209,10 +207,7 @@ export async function handleDiscordMessage(
 
                 replyEmbed = {
                   pingable: false,
-                  entity:
-                    referenced.author.username +
-                    "#" +
-                    referenced.author.discriminator,
+                  entity: formatDiscordName(message.author),
                   entityImage: referenced.author.avatarURL(),
                   content: formattedContent,
                   attachments: [],

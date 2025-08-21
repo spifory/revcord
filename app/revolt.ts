@@ -19,6 +19,7 @@ import {
   RevoltEmojiPattern,
   RevoltPingPattern,
 } from "./util/regex";
+import { formatDiscordName } from "./util/authors";
 
 /**
  * This file contains code taking care of things from Revolt to Discord
@@ -169,10 +170,7 @@ export async function handleRevoltMessage(
 
           const replyObject: ReplyObject = {
             pingable: false,
-            entity:
-              referencedMessage.author.username +
-              "#" +
-              referencedMessage.author.discriminator,
+            entity: formatDiscordName(referencedMessage.author),
             entityImage: referencedMessage.author.avatarURL(),
             content: referencedMessage.content,
             originalUrl: referencedMessage.url,
